@@ -15,8 +15,9 @@ public class GameController : MonoBehaviour
     public GameObject FailPanel;
     public bool isLevelEnd;
 
-    private Cameras cameras;
-    
+    public GameObject controllPanel;
+    public GameObject showControll;
+
     private void Start()
     {
         Cameras cameras = gameObject.AddComponent<Cameras>() as Cameras;
@@ -67,5 +68,14 @@ public class GameController : MonoBehaviour
         GameObject.Find("UI/ControlPanel").SetActive(false);
         GameObject.Find("UI/CommandsPanel").SetActive(false);
         WinPanel.SetActive(true);
+    }
+
+    public void ShowAndHideControllPanel()
+    {
+        Animator controllPanelAnimator = controllPanel.GetComponent<Animator>();
+        Animator showControllAnimator = showControll.GetComponent<Animator>();
+        bool isShowing = controllPanelAnimator.GetBool("Show");
+        controllPanelAnimator.SetBool("Show", !isShowing);
+        showControllAnimator.SetBool("Show", !isShowing);
     }
 }
