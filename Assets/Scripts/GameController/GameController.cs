@@ -8,12 +8,12 @@ using static CommandsExecutor;
 
 public class GameController : MonoBehaviour
 {   
-    public GameObject charakter;
+    public GameObject charakterAnimator;
     public GameObject EndStagePanel;
     public Text commendList;
     public GameObject WinPanel;
     public GameObject FailPanel;
-    public bool isLevelEnd;
+    public bool isLevelEnd, isKicking;
 
     public GameObject controllPanel;
     public GameObject showControll;
@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
         Cameras cameras = gameObject.AddComponent<Cameras>() as Cameras;
 
         CommandsExecutor mc = gameObject.AddComponent<CommandsExecutor>() as CommandsExecutor;
-        mc.charakter = charakter;
+        mc.charakterAnimator = charakterAnimator;
         mc.EndStagePanel = EndStagePanel;
         mc.commendList = commendList;
         mc.gameController = this;

@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Threading.Tasks;
+using System;
 public class CommandsExecutor : MonoBehaviour
 {   
-    public GameObject charakter;
+    public GameObject charakterAnimator;
     public GameObject EndStagePanel;
     public GameController gameController;
 
-    Animator animator;
+    Animator animatorPossition, animatorMove;
     Vector3 startPosition;
 
     bool isGoingForward;
@@ -22,107 +23,72 @@ public class CommandsExecutor : MonoBehaviour
     public Text commendList;
     int currentCommend;
     string[] commends;
+    Transform charakter;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = charakter.GetComponent<Animator>();
-        isGoingForward = false;
-        goForwardCount = 200;
-
-        isTurningLeft = false;
-        isTurningRight = false;
-        turnCount = 90;
-
+        animatorPossition = charakterAnimator.GetComponent<Animator>();
+        charakter = charakterAnimator.transform.GetChild(0);
+        animatorMove = charakter.GetComponent<Animator>();
         currentCommend = -1;
-
-        startPosition = charakter.transform.position;
+        startPosition = charakterAnimator.transform.position;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        GoForwardLogic();
-        TurnLeftLogic();
-        TurnRightLogic();
+
+    }
+    async void GoForward()
+    {
+        animatorPossition.SetBool("isGoingForward", true);
+        animatorMove.SetBool("isGoingForward", true);
+        await Task.Delay(TimeSpan.FromSeconds(1f));
+        charakterAnimator.transform.Translate(0f, 0f, 2.0f);
+        animatorPossition.SetBool("isGoingForward", false);
+        animatorMove.SetBool("isGoingForward", false);
+        await Task.Delay(TimeSpan.FromSeconds(0.3f));
+        NextCommend();
     }
 
-
-    void GoForward()
+    async void TurnLeft()
     {
-        animator.SetBool("isSneakWalk", true);
-        isGoingForward = true;
+        animatorPossition.SetBool("isTurningLeft", true);
+        animatorMove.SetBool("isTurningLeft", true);
+        await Task.Delay(TimeSpan.FromSeconds(1f));
+        charakterAnimator.transform.Rotate(0f, -90f, 0f);
+        animatorPossition.SetBool("isTurningLeft", false);
+        animatorMove.SetBool("isTurningLeft", false);
+        await Task.Delay(TimeSpan.FromSeconds(0.3f));
+        NextCommend();
+
     }
 
-
-    void GoForwardLogic()
-    {
-        if (isGoingForward)
-        {
-            charakter.transform.Translate(0f, 0f, 0.01f);
-            goForwardCount -= 1;
-            if (goForwardCount == 0)
-            {   
-                isGoingForward = false;
-                animator.SetBool("isSneakWalk", false);
-                goForwardCount = 200;
-                Vector3 tmp = charakter.transform.position;
-                tmp.x = Mathf.Round(tmp.x);
-                tmp.y = Mathf.Round(tmp.y);
-                tmp.z = Mathf.Round(tmp.z);
-                charakter.transform.position = tmp;
-                NextCommend();
-            }
-        }
+    async void TurnRight()
+    {   
+        animatorPossition.SetBool("isTurningRight", true);
+        animatorMove.SetBool("isTurningRight", true);
+        await Task.Delay(TimeSpan.FromSeconds(1f));
+        charakterAnimator.transform.Rotate(0f, 90f, 0f);
+        animatorPossition.SetBool("isTurningRight", false);
+        animatorMove.SetBool("isTurningRight", false);
+        await Task.Delay(TimeSpan.FromSeconds(0.3f));
+        NextCommend();
     }
-
-
-    void TurnLeft()
+    async void Kick()
     {
-        animator.SetBool("isTurningLeft", true);
-        isTurningLeft = true;
-    }
-
-
-    void TurnLeftLogic()
-    {
-        if (isTurningLeft)
-        {
-            charakter.transform.Rotate(0f, -1f, 0f);
-            turnCount -= 1;
-            if (turnCount == 0)
-            {   
-                isTurningLeft = false;
-                animator.SetBool("isTurningLeft", false);
-                turnCount = 90;
-                NextCommend();
-            }
-        }
-    }
-
-
-    void TurnRight()
-    {
-        animator.SetBool("isTurningRight", true);
-        isTurningRight = true;
-    }
-
-
-    void TurnRightLogic()
-    {
-        if (isTurningRight)
-        {
-            charakter.transform.Rotate(0f, 1f, 0f);
-            turnCount -= 1;
-            if (turnCount == 0)
-            {   
-                isTurningRight = false;
-                animator.SetBool("isTurningRight", false);
-                turnCount = 90;
-                NextCommend();
-            }
-        }
+        gameController.isKicking = true;
+        animatorPossition.SetBool("isKicking", true);
+        animatorMove.SetBool("isKicking", true);
+        await Task.Delay(TimeSpan.FromSeconds(1f));
+        charakterAnimator.transform.Translate(0f, 0f, 0.25f);
+        animatorPossition.SetBool("isKicking", false);
+        animatorMove.SetBool("isKicking", false);
+        await Task.Delay(TimeSpan.FromSeconds(0.3f));
+        gameController.isKicking = false;
+        NextCommend();
     }
 
     public void StartCommends()
@@ -133,14 +99,16 @@ public class CommandsExecutor : MonoBehaviour
     
 
     void NextCommend()
-    {
+    {   
+        if (gameController.isLevelEnd)
+        {
+            return;
+        }
+        
         currentCommend += 1;
         if (currentCommend == commends.Length)
         {   
-            if (!gameController.isLevelEnd)
-            {
-                gameController.ShowFail();
-            }
+            gameController.ShowFail();
             return;
         }
 
@@ -155,6 +123,10 @@ public class CommandsExecutor : MonoBehaviour
         else if (commend == "right")
         {
             TurnRight();
+        }
+        else if (commend == "kick")
+        {
+            Kick();
         }
     }
 }

@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - Key
   - Win
+  - Door
   layers:
   - Default
   - TransparentFX
