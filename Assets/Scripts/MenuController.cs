@@ -1,13 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Threading.Tasks;
+using System;
 public class MenuController : MonoBehaviour
 {
     public Animator animatorUI;
-    public void NewGame()
+    public Animator sceneLoader;
+    public async void NewGame()
     {
+        sceneLoader.SetBool("endScene", true);
+        await Task.Delay(TimeSpan.FromSeconds(0.51f));
         SceneManager.LoadScene(1);
     }
 
@@ -25,8 +27,10 @@ public class MenuController : MonoBehaviour
     {
         animatorUI.SetBool("authorShow", show);
     }
-    public void SelectLevel(int level)
+    public async void SelectLevel(int level)
     {
+        sceneLoader.SetBool("endScene", true);
+        await Task.Delay(TimeSpan.FromSeconds(0.51f));
         SceneManager.LoadScene(level);
     }
     public void Quit()
@@ -34,8 +38,10 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
     
-    public void Menu()
-    {
+    public async void Menu()
+    {   
+        sceneLoader.SetBool("endScene", true);
+        await Task.Delay(TimeSpan.FromSeconds(0.51f));
         SceneManager.LoadScene(0);
     }
 }

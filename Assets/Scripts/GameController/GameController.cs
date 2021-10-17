@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static Cameras;
-using static CommandsExecutor;
+using System.Threading.Tasks;
+using System;
 
 public class GameController : MonoBehaviour
 {   
@@ -17,6 +15,7 @@ public class GameController : MonoBehaviour
 
     public GameObject controllPanel;
     public GameObject showControll;
+    public Animator sceneLoader;
 
     private void Start()
     {
@@ -29,13 +28,17 @@ public class GameController : MonoBehaviour
         mc.gameController = this;
     }
 
-    public void Reload()
+    public async void Reload()
     {   
+        sceneLoader.SetBool("endScene", true);
+        await Task.Delay(TimeSpan.FromSeconds(0.51f));
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void Menu()
+    public async void Menu()
     {   
+        sceneLoader.SetBool("endScene", true);
+        await Task.Delay(TimeSpan.FromSeconds(0.51f));
         SceneManager.LoadScene(0);
     }
 
@@ -44,8 +47,10 @@ public class GameController : MonoBehaviour
         gameObject.GetComponent<Cameras>().NextCamera();
     }
 
-    public void NextLevel()
+    public async void NextLevel()
     {
+        sceneLoader.SetBool("endScene", true);
+        await Task.Delay(TimeSpan.FromSeconds(0.51f));
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
