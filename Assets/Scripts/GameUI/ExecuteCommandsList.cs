@@ -3,36 +3,31 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ExecuteCommandsList : MonoBehaviour, IHasChanged {
+public class ExecuteCommandsList : MonoBehaviour {
 	public Text inventoryText;
 
-	// Use this for initialization
 	void Start () {
-		HasChanged ();
+		UpdateList();
 	}
 	
-	public void HasChanged ()
-	{
-		System.Text.StringBuilder builder = new System.Text.StringBuilder();
-		foreach (Transform slotTransform in transform){
-			GameObject item = slotTransform.GetComponent<Slot>().commandOccupySlot;
-			if (item){
-                string commend = item.name.ToLower();
-				if (commend != "")
-				{
-					builder.Append (commend);
-					builder.Append (";");
+	public void UpdateList ()
+	{	
+		string commandString = "";
+		foreach (Transform lineTransform in transform){
+			foreach (Transform slotTransform in lineTransform){
+				Slot slot = slotTransform.GetComponent<Slot>();
+				if (slot) {
+					if (slot.commandOccupySlot) {
+						string commend = slot.commandOccupySlot.name;
+						if (commend != "")
+						{
+							commandString += commend;
+							commandString += ";";
+						}
+					}
 				}
-				
 			}
 		}
-		inventoryText.text = builder.ToString ();
-	}
-}
-
-
-namespace UnityEngine.EventSystems {
-	public interface IHasChanged : IEventSystemHandler {
-		void HasChanged();
+		inventoryText.text = commandString;
 	}
 }

@@ -1,45 +1,52 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Threading.Tasks;
-using System;
+using System.Collections;
 
 public class GameController : MonoBehaviour
 {   
-    public GameObject charakterAnimator;
-    public GameObject EndStagePanel;
-    public Text commendList;
-    public GameObject WinPanel;
-    public GameObject FailPanel;
+    public GameObject charakterAnimator, tutorial;
+    public Text[] commendsFromAllProc;
+    public Animator WinPanel, FailPanel;
     public bool isLevelEnd, isKicking;
-
-    public GameObject controllPanel;
-    public GameObject showControll;
-    public Animator sceneLoader;
-
+    public Animator sceneLoader, UIAnimator;
+    public Database database;
+    public string currentCondition;
+    CommandsExecutor mc;
+    Cameras cameras;
     private void Start()
     {
-        Cameras cameras = gameObject.AddComponent<Cameras>() as Cameras;
+        cameras = gameObject.AddComponent<Cameras>() as Cameras;
 
-        CommandsExecutor mc = gameObject.AddComponent<CommandsExecutor>() as CommandsExecutor;
+        mc = gameObject.AddComponent<CommandsExecutor>() as CommandsExecutor;
         mc.charakterAnimator = charakterAnimator;
-        mc.EndStagePanel = EndStagePanel;
-        mc.commendList = commendList;
+        mc.commendsFromAllProc = commendsFromAllProc;
         mc.gameController = this;
+        mc.currentCondition = currentCondition;
+        mc.teleport = null;
+
+    }
+    public void SetTutotialVisiable(bool visiable)
+    {
+        tutorial.SetActive(visiable);
+    }
+    public void SetInTeleport(GameObject teleport)
+    {
+        mc.teleport = teleport;
+    }
+    public void SetCurrnetCondition(string cond)
+    {
+        currentCondition = cond;
+        mc.currentCondition = cond;
+    }
+    public  void Reload()
+    {   
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex));
     }
 
-    public async void Reload()
+    public void Menu()
     {   
-        sceneLoader.SetBool("endScene", true);
-        await Task.Delay(TimeSpan.FromSeconds(0.51f));
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public async void Menu()
-    {   
-        sceneLoader.SetBool("endScene", true);
-        await Task.Delay(TimeSpan.FromSeconds(0.51f));
-        SceneManager.LoadScene(0);
+        StartCoroutine(LoadLevel(0));
     }
 
     public void NextCamera()
@@ -47,13 +54,15 @@ public class GameController : MonoBehaviour
         gameObject.GetComponent<Cameras>().NextCamera();
     }
 
-    public async void NextLevel()
+    public void NextLevel()
     {
-        sceneLoader.SetBool("endScene", true);
-        await Task.Delay(TimeSpan.FromSeconds(0.51f));
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
+    public void ChangePage()
+    {
+        UIAnimator.SetBool("ShowSecond", !UIAnimator.GetBool("ShowSecond"));
+    }
     public void StartCommends()
     {
         gameObject.GetComponent<CommandsExecutor>().StartCommends();
@@ -62,25 +71,24 @@ public class GameController : MonoBehaviour
     public void ShowFail()
     {
         isLevelEnd = true;
-        GameObject.Find("UI/ControlPanel").SetActive(false);
-        GameObject.Find("UI/CommandsPanel").SetActive(false);
-        FailPanel.SetActive(true);
+        FailPanel.SetBool("isLevelEnd", true);
     }
 
     public void ShowWin()
     {
+        database.UnlockLevel(SceneManager.GetActiveScene().buildIndex + 1);
         isLevelEnd = true;
-        GameObject.Find("UI/ControlPanel").SetActive(false);
-        GameObject.Find("UI/CommandsPanel").SetActive(false);
-        WinPanel.SetActive(true);
+        WinPanel.SetBool("isLevelEnd", true);
     }
 
-    public void ShowAndHideControllPanel()
+    IEnumerator LoadLevel(int levelId)
     {
-        Animator controllPanelAnimator = controllPanel.GetComponent<Animator>();
-        Animator showControllAnimator = showControll.GetComponent<Animator>();
-        bool isShowing = controllPanelAnimator.GetBool("Show");
-        controllPanelAnimator.SetBool("Show", !isShowing);
-        showControllAnimator.SetBool("Show", !isShowing);
+        sceneLoader.SetBool("endScene", true);
+        yield return new WaitForSeconds(1f);
+        if (levelId == 11)
+            levelId = 0;
+        SceneManager.LoadScene(levelId);
     }
+
+    
 }

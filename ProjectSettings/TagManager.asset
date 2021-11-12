@@ -11,6 +11,9 @@ TagManager:
   - Key
   - Win
   - Door
+  - Audio
+  - Condition
+  - Teleport
   layers:
   - Default
   - TransparentFX

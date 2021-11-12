@@ -10,17 +10,30 @@ public class CollisionCheck : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision)
-    {
+    {   
+        
         if (!gameController.isLevelEnd & collision.gameObject.tag == "Wall")
         {
             gameController.ShowFail();
+        }
+
+        if (!gameController.isLevelEnd & collision.gameObject.tag == "Condition")
+        {
+            gameController.SetCurrnetCondition(collision.gameObject.name);
+            gameController.SetInTeleport(null);
+        }
+
+        if (!gameController.isLevelEnd & collision.gameObject.tag == "Teleport")
+        {
+            gameController.SetCurrnetCondition(collision.gameObject.name);
+            gameController.SetInTeleport(collision.gameObject);
         }
 
         if (!gameController.isLevelEnd & collision.gameObject.tag == "Door")
         {   
             if (gameController.isKicking)
             {
-                Animator doorAnimator = collision.gameObject.GetComponent<Animator>();
+                Animator doorAnimator = collision.transform.parent.gameObject.GetComponent<Animator>();
                 doorAnimator.SetBool("FallDown", true);
             }
             else
