@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ExecuteCommandsList : MonoBehaviour {
 	public Text inventoryText;
 
-	void Start () {
+	private void Start () {
 		UpdateList();
 	}
 	

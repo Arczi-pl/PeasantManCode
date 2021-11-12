@@ -21,55 +21,51 @@ public class Conditions : MonoBehaviour
         ChangeCommandsIcons();
     }
 
-    void ChangeCommandIcon(GameObject command)
+    private void ChangeCommandIcon(GameObject command)
     {
         string[] nameSplit = command.name.Split('_');
         nameSplit = nameSplit.Take(nameSplit.Length - 1).ToArray();
         string name = "";
         foreach (string namePart in nameSplit)
-        {
             name += namePart + "_";
-        }
         name += currentCondition;
         command.name = name;
         command.GetComponent<Image>().sprite = (Sprite)this.GetType().GetField(name).GetValue(this);
     }
-    void ChangeCommandsIcons()
+    private void ChangeCommandsIcons()
     {
         GameObject commands = GameObject.Find("/UI/PickPanel/Commands/");
         foreach (Transform command in commands.transform)
-        {
             ChangeCommandIcon(command.gameObject);
-        }
     }
-    void ChangeCondIcon(string oldCondition)
+    private void ChangeCondIcon(string oldCondition)
     {
         Image oldImage = GameObject.Find("/UI/PickPanel/Conditions/" + oldCondition ).GetComponent<Image>();
-        if(oldCondition == "All")
+        switch (oldCondition)
         {
-            oldImage.sprite = CNN;
-        }
-        else if(oldCondition == "Red")
-        {
-            oldImage.sprite = CRN;
-        }
-        else if(oldCondition == "Blue")
-        {
-            oldImage.sprite = CBN;
+            case "All":
+                oldImage.sprite = CNN;
+                break;
+            case "Red":
+                oldImage.sprite = CRN;
+                break;
+            case "Blue":
+                oldImage.sprite = CBN;
+                break;
         }
 
         Image newImage = GameObject.Find("/UI/PickPanel/Conditions/" + currentCondition ).GetComponent<Image>();
-        if(currentCondition == "All")
+        switch (currentCondition)
         {
-            newImage.sprite = CNS;
-        }
-        else if(currentCondition == "Red")
-        {
-            newImage.sprite = CRS;
-        }
-        else if(currentCondition == "Blue")
-        {
-            newImage.sprite = CBS;
+            case "All":
+                newImage.sprite = CNS;
+                break;
+            case "Red":
+                newImage.sprite = CRS;
+                break;
+            case "Blue":
+                newImage.sprite = CBS;
+                break;
         }
     }
 }

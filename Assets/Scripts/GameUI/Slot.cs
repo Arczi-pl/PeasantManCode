@@ -47,11 +47,9 @@ public class Slot : MonoBehaviour, IDropHandler
 			bool isChange = dropedCommend.tag == "CommandToExecute";
 			bool isOccupied = commandOccupySlot;
 			
-
 			bool sameCommand = false;
-			if (isOccupied) {
+			if (isOccupied)
 				sameCommand = dropedCommend.name == commandOccupySlot.name;
-			}
 
 			if (sameCommand) {
 				dropedCommend.name += "_stay";
@@ -64,9 +62,7 @@ public class Slot : MonoBehaviour, IDropHandler
 				Slot oldParentSlot = oldParent.GetComponents<Slot>()[0];
 
 				if (isOccupied)
-				{
 					commandOccupySlot.transform.SetParent(oldParent);
-				}
 				else
 				{
 					oldParentSlot.SetSlotVisiable(true);
@@ -89,7 +85,7 @@ public class Slot : MonoBehaviour, IDropHandler
 					Destroy(commandOccupySlot);
 				}
 			}
-			//GameObject.Find("/Audio/putCommand").GetComponent<AudioSource>().Play();
+			GameObject.Find("/Audio/putCommand").GetComponent<AudioSource>().Play();
 			UpdateList();
 			
 		}

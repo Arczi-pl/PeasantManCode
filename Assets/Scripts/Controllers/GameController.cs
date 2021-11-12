@@ -8,14 +8,15 @@ public class GameController : MonoBehaviour
     public GameObject charakterAnimator, tutorial;
     public Text[] commendsFromAllProc;
     public Animator WinPanel, FailPanel;
-    public bool isLevelEnd, isKicking;
+    public bool isLevelEnd, isKicking, isLevelStart;
     public Animator sceneLoader, UIAnimator;
     public Database database;
     public string currentCondition;
-    CommandsExecutor mc;
-    Cameras cameras;
+    private CommandsExecutor mc;
+    private Cameras cameras;
     private void Start()
     {
+        isLevelStart = false;
         cameras = gameObject.AddComponent<Cameras>() as Cameras;
 
         mc = gameObject.AddComponent<CommandsExecutor>() as CommandsExecutor;
@@ -24,7 +25,6 @@ public class GameController : MonoBehaviour
         mc.gameController = this;
         mc.currentCondition = currentCondition;
         mc.teleport = null;
-
     }
     public void SetTutotialVisiable(bool visiable)
     {
@@ -65,7 +65,10 @@ public class GameController : MonoBehaviour
     }
     public void StartCommends()
     {
-        gameObject.GetComponent<CommandsExecutor>().StartCommends();
+        if (!isLevelStart){
+            gameObject.GetComponent<CommandsExecutor>().StartCommends();
+            isLevelStart = true;
+        }
     }
 
     public void ShowFail()
