@@ -32,6 +32,7 @@ public class CollisionCheck : MonoBehaviour
                     if (gameController.isKicking)
                     {
                         Animator doorAnimator = collision.transform.parent.gameObject.GetComponent<Animator>();
+                        GameObject.Find("/Audio/doorCrash").GetComponent<AudioSource>().Play();
                         doorAnimator.SetBool("FallDown", true);
                     }
                     else

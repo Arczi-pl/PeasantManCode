@@ -91,6 +91,7 @@ public class CommandsExecutor : MonoBehaviour
         if(teleport)
         {
             charakterAnimator.transform.position = teleport.GetComponent<Teleport>().secondTeleport.transform.position;
+            GameObject.Find("/Audio/teleport").GetComponent<AudioSource>().Play();
         }
         animatorMove.SetBool("isTeleportUp", true);
         await Task.Delay(TimeSpan.FromSeconds(1f));

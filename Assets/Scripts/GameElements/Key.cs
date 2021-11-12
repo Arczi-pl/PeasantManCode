@@ -14,6 +14,7 @@ public class Key : MonoBehaviour
         {
             particles.SetActive(true);
             cageAnimator = cage.GetComponent<Animator>();
+            GameObject.Find("/Audio/cageDown").GetComponent<AudioSource>().Play();
             cageAnimator.SetBool("goDown", true);
             Destroy(gameObject);
         }
