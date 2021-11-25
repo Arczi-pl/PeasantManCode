@@ -22,6 +22,7 @@ public class ExecuteCommandsList : MonoBehaviour
 			foreach (Transform slotTransform in lineTransform)
 			{
 				Slot slot = slotTransform.GetComponent<Slot>();
+				// for every slot in process create command string separated by ;
 				if (slot)
 				{
 					if (slot.GetCommandOccupySlot())

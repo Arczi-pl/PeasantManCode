@@ -5,6 +5,7 @@ using System.Linq;
 public class Conditions : MonoBehaviour
 {
     public Sprite CNN, CNS, CRN, CRS, CBS, CBN;
+    // the names of the icons correspond to the names of the executable commands
     public Sprite Go_All, Left_All, Right_All, Kick_All, UseProc_0_All, UseProc_1_All, UseProc_2_All, UseProc_3_All, Teleport_All;
     public Sprite Go_Red, Left_Red, Right_Red, Kick_Red, UseProc_0_Red, UseProc_1_Red, UseProc_2_Red, UseProc_3_Red, Teleport_Red;
     public Sprite Go_Blue, Left_Blue, Right_Blue, Kick_Blue, UseProc_0_Blue, UseProc_1_Blue, UseProc_2_Blue, UseProc_3_Blue, Teleport_Blue;
@@ -20,6 +21,7 @@ public class Conditions : MonoBehaviour
 
     private void ChangeCommandIcon(GameObject command)
     {
+        // change command name
         string[] nameSplit = command.name.Split('_');
         nameSplit = nameSplit.Take(nameSplit.Length - 1).ToArray();
         string name = "";
@@ -27,6 +29,7 @@ public class Conditions : MonoBehaviour
             name += namePart + "_";
         name += _currentCondition;
         command.name = name;
+        // change command icon
         command.GetComponent<Image>().sprite = (Sprite)this.GetType().GetField(name).GetValue(this);
     }
 
@@ -39,6 +42,7 @@ public class Conditions : MonoBehaviour
 
     private void ChangeCondIcon(string oldCondition)
     {
+        // change old condition icon
         Image oldImage = GameObject.Find("/UI/PickPanel/Conditions/" + oldCondition ).GetComponent<Image>();
         switch (oldCondition)
         {
@@ -53,6 +57,7 @@ public class Conditions : MonoBehaviour
                 break;
         }
 
+        // change selected condition icon
         Image newImage = GameObject.Find("/UI/PickPanel/Conditions/" + _currentCondition ).GetComponent<Image>();
         switch (_currentCondition)
         {

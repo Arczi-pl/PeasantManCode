@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     private Cameras _cameras;
     private bool _isLevelEnd, _isKicking, _isLevelStart;
 
+    // create scripts for cameras and commands execute
     private void Start()
     {
         _cameras = gameObject.AddComponent<Cameras>() as Cameras;
@@ -44,11 +45,13 @@ public class GameController : MonoBehaviour
         _commandsExecutor.SetCurrentCondition(cond);
     }
 
-    public  void Reload()
+    // reload current level
+    public void Reload()
     {   
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex));
     }
 
+    // go to menu
     public void Menu()
     {   
         StartCoroutine(LoadLevel(0));
@@ -120,6 +123,7 @@ public class GameController : MonoBehaviour
         return _isLevelEnd;
     }
     
+    // load level, if id=11, then go to menu
     IEnumerator LoadLevel(int levelId)
     {
         SceneLoader.SetBool("endScene", true);

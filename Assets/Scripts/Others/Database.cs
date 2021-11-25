@@ -6,16 +6,17 @@ public class Database : MonoBehaviour
 {
 	private string _dbName;
 	private IDbConnection _dbConnection;
-	
+
     void Start()
     {
 		_dbName = "URI=file:" + Application.persistentDataPath + "/" + "Database.db";
 		_dbConnection = new SqliteConnection(_dbName);
-        createDB();
-		insertLevels();
+		// create table and insert all levels locked if not exists
+        CreateDB();
+		InsertLevels();
     }
 
-    public void createDB() {
+    public void CreateDB() {
 		_dbConnection.Open();
 		IDbCommand dbCommand = _dbConnection.CreateCommand();
 
@@ -25,7 +26,7 @@ public class Database : MonoBehaviour
 		_dbConnection.Close();
     }
 
-	public void insertLevels() {
+	public void InsertLevels() {
 		_dbConnection.Open();
 		IDbCommand dbCommand = _dbConnection.CreateCommand();
 			
@@ -50,7 +51,7 @@ public class Database : MonoBehaviour
 		_dbConnection.Close();
 	}
 
-	public string[] getUnlockedLevels() {
+	public string[] GetUnlockedLevels() {
 		_dbConnection.Open();
 		IDbCommand dbCommand = _dbConnection.CreateCommand();
 

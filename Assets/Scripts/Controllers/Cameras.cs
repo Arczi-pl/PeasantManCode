@@ -9,10 +9,13 @@ public class Cameras : MonoBehaviour
 
     private void Start()
     {
+        // adds all camera from board to list
         _cameras.AddRange(from Transform tran in GameObject.Find("Cameras").transform
                           select tran.gameObject);
     }
 
+    // change to next camera
+    // if it last in list then go to begin
     public void NextCamera()
     {
         _cameras[_currentCamera].SetActive(false);

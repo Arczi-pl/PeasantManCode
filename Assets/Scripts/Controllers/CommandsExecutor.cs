@@ -34,13 +34,21 @@ public class CommandsExecutor : MonoBehaviour
 
     private async void GoForward(int procID, int commendID)
     {
+        // run animation to change character position
         _animatorPossition.SetBool("isGoingForward", true);
+        // run animation to start character movement
         _animatorMove.SetBool("isGoingForward", true);
+        // wait for animation
         await Task.Delay(TimeSpan.FromSeconds(1f));
+        // change character position
         _characterObj.transform.Translate(0f, 0f, 2.0f);
+        // stop animation to change character position
         _animatorPossition.SetBool("isGoingForward", false);
+        // stop animation to start character movement
         _animatorMove.SetBool("isGoingForward", false);
+        // wait for the animation to stop
         await Task.Delay(TimeSpan.FromSeconds(0.3f));
+        // execute next command
         ExecuteCommend(procID, commendID + 1);
     }
 
@@ -83,15 +91,18 @@ public class CommandsExecutor : MonoBehaviour
     }
 
     private async void UseTeleport(int procID, int commendID)
-    {
+    {   
+        // crouch down
         _animatorMove.SetBool("isTeleportDown", true);
         await Task.Delay(TimeSpan.FromSeconds(1f));
         _animatorMove.SetBool("isTeleportDown", false);
+        // if currently on teleport then teleport and play sound 
         if(_teleport)
         {
             _characterObj.transform.position = _teleport.GetComponent<Teleport>().SecondTeleport.transform.position;
             GameObject.Find("/Audio/teleport").GetComponent<AudioSource>().Play();
         }
+        // stand up
         _animatorMove.SetBool("isTeleportUp", true);
         await Task.Delay(TimeSpan.FromSeconds(1f));
         _animatorMove.SetBool("isTeleportUp", false);
@@ -171,14 +182,13 @@ public class CommandsExecutor : MonoBehaviour
 
     private void SetActiveIcon(int procID, int commendID)
     {
+        // highlights the command currently being executed
         GameObject slot = GetSlot(procID, _mapSlotsToCommands[procID][commendID]);
         GameObject icon = slot.transform.GetChild(0).gameObject;
         Image iconImage = icon.GetComponent<Image>();
         iconImage.color = _activeIconColor;
         if (_previousIconImage)
-        {
             _previousIconImage.color = _normalIconColor;
-        }
         _previousIconImage = iconImage;
     }
 
@@ -187,21 +197,26 @@ public class CommandsExecutor : MonoBehaviour
         if (_gameController.GetIsLevelEnd())
             return;
         
+        // if the end of commands in a process
         if (commendID >= _allCommends[procID].Length)
         {   
             if (procID == 0)
+                // if it's main then show fail
                 _gameController.ShowFail();
             else
+                // else execute the next command from the previous process
                 ExecuteCommend(_beforeProcProc[procID], _beforeProcCommend[procID] + 1);
             return;
         }
 
+        // get command and condition
         string command = _allCommends[procID][commendID];
         string[] commandSplit = command.Split('_');
         string commandCondition = commandSplit[commandSplit.Length - 1];
         commandSplit = commandSplit.Take(commandSplit.Length - 1).ToArray();
         command = String.Join("_", commandSplit);
 
+        // if the condition does not match then execute the next command
         if(commandCondition != "All" && commandCondition != _currentCondition)
         {
             ExecuteCommend(procID, commendID + 1);
@@ -210,6 +225,7 @@ public class CommandsExecutor : MonoBehaviour
 
         SetActiveIcon(procID, commendID);
 
+        // execute the command
         switch (command)
         {
             case "Go":
@@ -228,6 +244,7 @@ public class CommandsExecutor : MonoBehaviour
                 UseTeleport(procID, commendID);
                 break;
             default:
+                // or switch process
                 if (command.StartsWith("UseProc"))
                 {
                     var newProcID = int.Parse(command.Split('_')[1]);

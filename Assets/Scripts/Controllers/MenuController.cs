@@ -32,7 +32,7 @@ public class MenuController : MonoBehaviour
 
     public void ShowLevelSelect(bool show)
     {   
-        string[] unlockedLevels = Database.getUnlockedLevels();
+        string[] unlockedLevels = Database.GetUnlockedLevels();
         foreach(string level in unlockedLevels)
         {
             GameObject.Find("/UI/SelectLevel/Levels/" + level).SetActive(true);
@@ -63,6 +63,7 @@ public class MenuController : MonoBehaviour
         GameObject.Find("/UI/Options/Track/" + newTrackNum).GetComponent<Image>().color = new Color(0, 0, 0, 0.254902f);
         GameObject.Find("/UI/Options/Track/" + _currentTrackNum).GetComponent<Image>().color = new Color(255, 255, 255, 0.254902f);
 
+        // get value of Track + <ID> variable
         _currentTrack.clip = (AudioClip)this.GetType().GetField("Track" + newTrackNum).GetValue(this);
         _currentTrack.Play();
         
@@ -83,6 +84,7 @@ public class MenuController : MonoBehaviour
     {
         _putCommand.Play();
         Database.ResetProgress();
+        // hide levels in select level panel
         for (int i = 2; i<= 10; i++)
             GameObject.Find("/UI/SelectLevel/Levels/" + i).SetActive(false);
     }

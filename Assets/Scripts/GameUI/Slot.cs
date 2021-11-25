@@ -16,7 +16,7 @@ public class Slot : MonoBehaviour, IDropHandler
 
 	public GameObject GetCommandOccupySlot()
 	{
-		if(transform.childCount>0)
+		if(transform.childCount > 0)
 			return transform.GetChild(0).gameObject;
 		return null;
 	}
@@ -30,12 +30,12 @@ public class Slot : MonoBehaviour, IDropHandler
 	{
 		Color slotColor;
 		if (isVisiable)
-			slotColor = new Color(255f, 255f, 255f, 0.35f);
+			slotColor = _visibleSlotColor;
 		else
-			slotColor = new Color(255f, 255f, 255f, 0f);
+			slotColor = _invisibleSlotColor;
 		transform.GetComponent<Image>().color = slotColor;
 	}
-	
+
 	public void OnDrop (PointerEventData eventData)
 	{	
 		if (DragController.CommandBeingDragged) {
@@ -54,15 +54,18 @@ public class Slot : MonoBehaviour, IDropHandler
 				return;
 			}
 
+			// if droped command was in process already
 			if (isChange)
 			{	
 				Transform oldParent = dropedCommend.transform.parent;
 				Slot oldParentSlot = oldParent.GetComponents<Slot>()[0];
 
 				if (isOccupied)
+					// if drop on an occupied slot then swap commands
 					GetCommandOccupySlot().transform.SetParent(oldParent);
 				else
 				{
+					// else change command slot
 					oldParentSlot.SetSlotVisiable(true);
 					SetSlotVisiable(false);
 				}
@@ -70,8 +73,9 @@ public class Slot : MonoBehaviour, IDropHandler
 				oldParentSlot.UpdateList();
 			}
 			else
-			{
-				transform.GetComponent<Image>().color = _invisibleSlotColor;
+			{	
+				// if picked new command then create one and put to slot
+				SetSlotVisiable(false);
 				GameObject newCommand = Instantiate(dropedCommend);
 				newCommand.name = dropedCommend.name;
 				newCommand.transform.SetParent(transform);
@@ -79,6 +83,7 @@ public class Slot : MonoBehaviour, IDropHandler
 				newCommand.GetComponent<CanvasGroup>().blocksRaycasts = true;
 				if (isOccupied) 
 				{
+					// if drop on an occupied slot then delete old command
 					GetCommandOccupySlot().name = newCommand.name;
 					Destroy(GetCommandOccupySlot());
 				}
