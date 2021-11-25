@@ -1366,7 +1366,7 @@ GameObject:
   - component: {fileID: 69805067}
   - component: {fileID: 69805066}
   m_Layer: 0
-  m_Name: CharakterAnimator
+  m_Name: CharacterObj
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2765,7 +2765,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f065c5deb0e90449e732555ec7218f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryText: {fileID: 974872985}
 --- !u!1001 &182213243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10954,7 +10953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f065c5deb0e90449e732555ec7218f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryText: {fileID: 1182601227}
 --- !u!4 &917878603 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2559810838395413726, guid: e37d55d9adae8724c9dcf1dff5b67578, type: 3}
@@ -11872,7 +11870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &974872984
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14337,21 +14335,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730d1bd120a09854a8f593eb104dfea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charakterAnimator: {fileID: 69805065}
-  tutorial: {fileID: 3767541118834726078}
-  commendsFromAllProc:
+  CharacterObj: {fileID: 69805065}
+  Tutorial: {fileID: 3767541118834726078}
+  CommendsFromAllProc:
   - {fileID: 974872985}
   - {fileID: 1410247079}
   - {fileID: 1182601227}
   - {fileID: 2132321446}
   WinPanel: {fileID: 1876647716}
   FailPanel: {fileID: 1198113388}
-  isLevelEnd: 0
-  isKicking: 0
-  sceneLoader: {fileID: 8682735363354148454}
+  SceneLoader: {fileID: 8682735363354148454}
   UIAnimator: {fileID: 1988636357}
-  database: {fileID: 12183036}
-  currentCondition: All
+  Database: {fileID: 12183036}
 --- !u!1001 &1119735604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14857,7 +14852,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1182601226
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16556,7 +16551,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f065c5deb0e90449e732555ec7218f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryText: {fileID: 1410247079}
 --- !u!1001 &1270313879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18030,7 +18024,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1410247079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18235,7 +18229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f065c5deb0e90449e732555ec7218f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryText: {fileID: 2132321446}
 --- !u!1 &1433427796
 GameObject:
   m_ObjectHideFlags: 0
@@ -25995,7 +25988,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2132321445
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27408,7 +27401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25f98a76e0875dc419267130dc0eb82a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameControllerObj: {fileID: 1118926194}
+  GameControllerObj: {fileID: 1118926194}
 --- !u!1 &5054644727685013720
 GameObject:
   m_ObjectHideFlags: 0

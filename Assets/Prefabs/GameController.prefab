@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4942160510460478252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4942160510460478250}
+  - component: {fileID: 4942160510460478251}
+  - component: {fileID: 4942160510460478253}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4942160510460478250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4942160510460478252}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 906.81836, y: 469.29584, z: -24.892517}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4942160510460478251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4942160510460478252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 730d1bd120a09854a8f593eb104dfea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charakterAnimator: {fileID: 0}
+  Tutorial: {fileID: 0}
+  CommendsFromAllProc:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  WinPanel: {fileID: 0}
+  FailPanel: {fileID: 0}
+  sceneLoader: {fileID: 0}
+  UIAnimator: {fileID: 0}
+  database: {fileID: 0}
+  currentCondition: All
+--- !u!114 &4942160510460478253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4942160510460478252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd122ea707adcb844b3639c0321193e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CNN: {fileID: 21300000, guid: 8de7299d6ba57e24bb762d0de215c931, type: 3}
+  CNS: {fileID: 21300000, guid: 5d8eb1e626219fb449d361525031abde, type: 3}
+  CRN: {fileID: 21300000, guid: 7bc135d00d66bc440924feda6517d8a7, type: 3}
+  CRS: {fileID: 21300000, guid: c64d4d0c0bb6a3b45ad19cdfa2baf84b, type: 3}
+  CBS: {fileID: 21300000, guid: ec02c2c21f23226468e571ae078c6082, type: 3}
+  CBN: {fileID: 21300000, guid: f6162b4b60508d74d8261faf873d2495, type: 3}
+  Go_All: {fileID: 21300000, guid: 00199ce898586be4b845d1fbf274abb8, type: 3}
+  Left_All: {fileID: 21300000, guid: 3f9ddf1f8a77e254d92d6aa62e60ff89, type: 3}
+  Right_All: {fileID: 21300000, guid: 2e84ff579c9fb53409a7308b1105c5dd, type: 3}
+  Kick_All: {fileID: 21300000, guid: 44aaa8267ef55be4e8ad506758ccebf6, type: 3}
+  UseProc_0_All: {fileID: 21300000, guid: 77e5acaf91cf2df4f8f2097dc8280260, type: 3}
+  UseProc_1_All: {fileID: 21300000, guid: c90e37c946ab2c744952a80005bfd4a9, type: 3}
+  UseProc_2_All: {fileID: 21300000, guid: c810618092b4b964caa165518bdf51d7, type: 3}
+  UseProc_3_All: {fileID: 21300000, guid: 0a47eb6597e47094598fa0a26f431f30, type: 3}
+  Teleport_All: {fileID: 21300000, guid: 78b0b2e23fa8ac243ad2d1852442e219, type: 3}
+  Go_Red: {fileID: 21300000, guid: a69c98eab3d5c0945a24f07dc6c41da8, type: 3}
+  Left_Red: {fileID: 21300000, guid: 6854f7ae4e230b744beae8e368158102, type: 3}
+  Right_Red: {fileID: 21300000, guid: b1a21318a25f87b4faf2fb3bd0dab9ef, type: 3}
+  Kick_Red: {fileID: 21300000, guid: 690a355f1e9706240a76667f82f74515, type: 3}
+  UseProc_0_Red: {fileID: 21300000, guid: 4679321273694004da595bef8b98e4e7, type: 3}
+  UseProc_1_Red: {fileID: 21300000, guid: 71ebab3ccfcb2154bab92a8bf6644c15, type: 3}
+  UseProc_2_Red: {fileID: 21300000, guid: d715d770e39a8f14395aa5bfec2142d7, type: 3}
+  UseProc_3_Red: {fileID: 21300000, guid: bf66715aa907501489fbae0256bf2127, type: 3}
+  Teleport_Red: {fileID: 21300000, guid: 06cd1ab681ba14d4dace6693da55a434, type: 3}
+  Go_Blue: {fileID: 21300000, guid: d0414228ad0e96943a65678ef5dda126, type: 3}
+  Left_Blue: {fileID: 21300000, guid: ac59012c65dd88f41b60e75a151e4e7c, type: 3}
+  Right_Blue: {fileID: 21300000, guid: 2dbe52534056a5546a646a7c539c494b, type: 3}
+  Kick_Blue: {fileID: 21300000, guid: 21a0237e89c99294ea914efd67dbef58, type: 3}
+  UseProc_0_Blue: {fileID: 21300000, guid: 1fadf24b7c1966c499c694cba41a131f, type: 3}
+  UseProc_1_Blue: {fileID: 21300000, guid: e140847815c8c66409263b0519f35551, type: 3}
+  UseProc_2_Blue: {fileID: 21300000, guid: a26037736b40d59489f79216432a27b4, type: 3}
+  UseProc_3_Blue: {fileID: 21300000, guid: d06f9a7ff54e996418f9d042773e7978, type: 3}
+  Teleport_Blue: {fileID: 21300000, guid: f17480c65adda50498da48e7a7d19afe, type: 3}

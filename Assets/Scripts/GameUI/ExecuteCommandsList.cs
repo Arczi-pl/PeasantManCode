@@ -1,24 +1,32 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ExecuteCommandsList : MonoBehaviour {
-	public Text inventoryText;
+public class ExecuteCommandsList : MonoBehaviour
+{
+	private GameObject _inventory;
+	private Text _inventoryText;
 
-	private void Start () {
+	private void Start ()
+	{	
+		_inventory = GameObject.Find("/UI/Commands" + gameObject.name.Remove(gameObject.name.Length - 4, 4));
+		_inventoryText = _inventory.GetComponent<Text>();
+		_inventory.SetActive(false);
 		UpdateList();
 	}
 	
 	public void UpdateList ()
 	{	
 		string commandString = "";
-		foreach (Transform lineTransform in transform){
-			foreach (Transform slotTransform in lineTransform){
+		foreach (Transform lineTransform in transform)
+		{
+			foreach (Transform slotTransform in lineTransform)
+			{
 				Slot slot = slotTransform.GetComponent<Slot>();
-				if (slot) {
-					if (slot.commandOccupySlot) {
-						string commend = slot.commandOccupySlot.name;
+				if (slot)
+				{
+					if (slot.GetCommandOccupySlot())
+					{
+						string commend = slot.GetCommandOccupySlot().name;
 						if (commend != "")
 						{
 							commandString += commend;
@@ -28,6 +36,6 @@ public class ExecuteCommandsList : MonoBehaviour {
 				}
 			}
 		}
-		inventoryText.text = commandString;
+		_inventoryText.text = commandString;
 	}
 }

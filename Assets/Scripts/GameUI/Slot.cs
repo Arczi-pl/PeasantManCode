@@ -1,57 +1,55 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
-	private ExecuteCommandsList commandsList;
-	private Color invisibleSlotColor;
-	private Color visibleSlotColor;
+	private ExecuteCommandsList _commandsList;
+	private Color _invisibleSlotColor, _visibleSlotColor;
 
-	public GameObject commandOccupySlot {
-		get {
-            // Kiedy zajęty slot
-			if(transform.childCount>0){
-				return transform.GetChild(0).gameObject;
-			}
-            // Kiedy pusty slot
-			return null;
-		}
+	private void Start() 
+	{
+		_invisibleSlotColor = new Color(255f, 255f, 255f, 0f);
+		_visibleSlotColor = new Color(255f, 255f, 255f, 0.35f);
+		_commandsList = transform.parent.parent.GetComponent<ExecuteCommandsList>();
 	}
-	private void Start() {
-		invisibleSlotColor = new Color(255f, 255f, 255f, 0f);
-		visibleSlotColor = new Color(255f, 255f, 255f, 0.35f);
-		commandsList = transform.parent.parent.GetComponent<ExecuteCommandsList>();
+
+	public GameObject GetCommandOccupySlot()
+	{
+		if(transform.childCount>0)
+			return transform.GetChild(0).gameObject;
+		return null;
 	}
 
 	public void UpdateList()
 	{
-		commandsList.UpdateList();
+		_commandsList.UpdateList();
 	}
+
 	public void SetSlotVisiable(bool isVisiable)
 	{
 		Color slotColor;
-		if (isVisiable) {
+		if (isVisiable)
 			slotColor = new Color(255f, 255f, 255f, 0.35f);
-		} else {
+		else
 			slotColor = new Color(255f, 255f, 255f, 0f);
-		}
 		transform.GetComponent<Image>().color = slotColor;
 	}
+	
 	public void OnDrop (PointerEventData eventData)
 	{	
-		if (DragController.commandBeingDragged) {
-			GameObject dropedCommend = DragController.commandBeingDragged;
+		if (DragController.CommandBeingDragged) {
+			GameObject dropedCommend = DragController.CommandBeingDragged;
 			
 			bool isChange = dropedCommend.tag == "CommandToExecute";
-			bool isOccupied = commandOccupySlot;
+			bool isOccupied = !(GetCommandOccupySlot() is null);
 			
 			bool sameCommand = false;
 			if (isOccupied)
-				sameCommand = dropedCommend.name == commandOccupySlot.name;
+				sameCommand = dropedCommend.name == GetCommandOccupySlot().name;
 
-			if (sameCommand) {
+			if (sameCommand) 
+			{
 				dropedCommend.name += "_stay";
 				return;
 			}
@@ -62,7 +60,7 @@ public class Slot : MonoBehaviour, IDropHandler
 				Slot oldParentSlot = oldParent.GetComponents<Slot>()[0];
 
 				if (isOccupied)
-					commandOccupySlot.transform.SetParent(oldParent);
+					GetCommandOccupySlot().transform.SetParent(oldParent);
 				else
 				{
 					oldParentSlot.SetSlotVisiable(true);
@@ -73,7 +71,7 @@ public class Slot : MonoBehaviour, IDropHandler
 			}
 			else
 			{
-				transform.GetComponent<Image>().color = invisibleSlotColor;
+				transform.GetComponent<Image>().color = _invisibleSlotColor;
 				GameObject newCommand = Instantiate(dropedCommend);
 				newCommand.name = dropedCommend.name;
 				newCommand.transform.SetParent(transform);
@@ -81,13 +79,12 @@ public class Slot : MonoBehaviour, IDropHandler
 				newCommand.GetComponent<CanvasGroup>().blocksRaycasts = true;
 				if (isOccupied) 
 				{
-					commandOccupySlot.name = newCommand.name;
-					Destroy(commandOccupySlot);
+					GetCommandOccupySlot().name = newCommand.name;
+					Destroy(GetCommandOccupySlot());
 				}
 			}
 			GameObject.Find("/Audio/putCommand").GetComponent<AudioSource>().Play();
 			UpdateList();
-			
 		}
 	}
 }

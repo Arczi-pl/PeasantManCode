@@ -1,48 +1,48 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CollisionCheck : MonoBehaviour
 {
-    public GameObject gameControllerObj;
-    private GameController gameController;
+    public GameObject GameControllerObj;
+    private GameController _gameController;
+    
     private void Start() {
-        gameController = gameControllerObj.GetComponent<GameController>();
+        _gameController = GameControllerObj.GetComponent<GameController>();
     }
 
     void OnCollisionEnter(Collision collision)
     {   
-        if (gameController.isLevelEnd)
+        if (_gameController.GetIsLevelEnd())
             return;
 
         switch (collision.gameObject.tag)
         {
             case "Wall":
-                gameController.ShowFail();
+                _gameController.ShowFail();
                 break;
             case "Condition":
-                gameController.SetCurrnetCondition(collision.gameObject.name);
-                gameController.SetInTeleport(null);
+                _gameController.SetCurrnetCondition(collision.gameObject.name);
+                _gameController.SetInTeleport(null);
                 break;
             case "Teleport":
-                gameController.SetCurrnetCondition(collision.gameObject.name);
-                gameController.SetInTeleport(collision.gameObject);
+                _gameController.SetCurrnetCondition(collision.gameObject.name);
+                _gameController.SetInTeleport(collision.gameObject);
                 break;
             case "Door":
                 {
-                    if (gameController.isKicking)
+                    if (_gameController.GetIsKicking())
                     {
                         Animator doorAnimator = collision.transform.parent.gameObject.GetComponent<Animator>();
                         GameObject.Find("/Audio/doorCrash").GetComponent<AudioSource>().Play();
                         doorAnimator.SetBool("FallDown", true);
                     }
                     else
-                        gameController.ShowFail();
+                        _gameController.ShowFail();
 
                     break;
                 }
 
             case "Win":
-                gameController.ShowWin();
+                _gameController.ShowWin();
                 break;
         }
     }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
@@ -8,52 +6,52 @@ using System.Linq;
 
 public class CommandsExecutor : MonoBehaviour
 {   
-    public GameObject charakterAnimator, teleport;
-    public GameController gameController;
-    public Text[] commendsFromAllProc;
-    public string currentCondition;
-    private Animator animatorPossition, animatorMove;
-    private Transform charakter;
-    private int[] beforeProcCommend, beforeProcProc;
-    private string[][] allCommends;
-    private int[][] mapSlotsToCommands;
-    private Color activeIconColor, normalIconColor;
-    private Image previousIconImage;
+    private GameObject _characterObj, _teleport;
+    private GameController _gameController;
+    private Text[] _commendsFromAllProc;
+    private string _currentCondition;
+    private Animator _animatorPossition, _animatorMove;
+    private Transform _charakterTransform;
+    private int[] _beforeProcCommend, _beforeProcProc;
+    private string[][] _allCommends;
+    private int[][] _mapSlotsToCommands;
+    private Color _activeIconColor, _normalIconColor;
+    private Image _previousIconImage;
 
     private void Start()
     {
-        animatorPossition = charakterAnimator.GetComponent<Animator>();
-        charakter = charakterAnimator.transform.GetChild(0);
-        animatorMove = charakter.GetComponent<Animator>();
-        allCommends = new string[4][];
-        mapSlotsToCommands = new int[4][];
-        activeIconColor = new Color(100, 255, 0, 1);
-        normalIconColor = new Color(255, 255, 255, 1);
-        previousIconImage = null;
-        beforeProcCommend = new int[4] {0, 0, 0, 0};
-        beforeProcProc = new int[4] {0, 0, 0, 0};
+        _animatorPossition = _characterObj.GetComponent<Animator>();
+        _charakterTransform = _characterObj.transform.GetChild(0);
+        _animatorMove = _charakterTransform.GetComponent<Animator>();
+        _allCommends = new string[4][];
+        _mapSlotsToCommands = new int[4][];
+        _activeIconColor = new Color(100, 255, 0, 1);
+        _normalIconColor = new Color(255, 255, 255, 1);
+        _previousIconImage = null;
+        _beforeProcCommend = new int[4] {0, 0, 0, 0};
+        _beforeProcProc = new int[4] {0, 0, 0, 0};
     }
 
     private async void GoForward(int procID, int commendID)
     {
-        animatorPossition.SetBool("isGoingForward", true);
-        animatorMove.SetBool("isGoingForward", true);
+        _animatorPossition.SetBool("isGoingForward", true);
+        _animatorMove.SetBool("isGoingForward", true);
         await Task.Delay(TimeSpan.FromSeconds(1f));
-        charakterAnimator.transform.Translate(0f, 0f, 2.0f);
-        animatorPossition.SetBool("isGoingForward", false);
-        animatorMove.SetBool("isGoingForward", false);
+        _characterObj.transform.Translate(0f, 0f, 2.0f);
+        _animatorPossition.SetBool("isGoingForward", false);
+        _animatorMove.SetBool("isGoingForward", false);
         await Task.Delay(TimeSpan.FromSeconds(0.3f));
         ExecuteCommend(procID, commendID + 1);
     }
 
     private async void TurnLeft(int procID, int commendID)
     {
-        animatorPossition.SetBool("isTurningLeft", true);
-        animatorMove.SetBool("isTurningLeft", true);
+        _animatorPossition.SetBool("isTurningLeft", true);
+        _animatorMove.SetBool("isTurningLeft", true);
         await Task.Delay(TimeSpan.FromSeconds(1f));
-        charakterAnimator.transform.Rotate(0f, -90f, 0f);
-        animatorPossition.SetBool("isTurningLeft", false);
-        animatorMove.SetBool("isTurningLeft", false);
+        _characterObj.transform.Rotate(0f, -90f, 0f);
+        _animatorPossition.SetBool("isTurningLeft", false);
+        _animatorMove.SetBool("isTurningLeft", false);
         await Task.Delay(TimeSpan.FromSeconds(0.3f));
         ExecuteCommend(procID, commendID + 1);
 
@@ -61,61 +59,64 @@ public class CommandsExecutor : MonoBehaviour
 
     private async void TurnRight(int procID, int commendID)
     {   
-        animatorPossition.SetBool("isTurningRight", true);
-        animatorMove.SetBool("isTurningRight", true);
+        _animatorPossition.SetBool("isTurningRight", true);
+        _animatorMove.SetBool("isTurningRight", true);
         await Task.Delay(TimeSpan.FromSeconds(1f));
-        charakterAnimator.transform.Rotate(0f, 90f, 0f);
-        animatorPossition.SetBool("isTurningRight", false);
-        animatorMove.SetBool("isTurningRight", false);
+        _characterObj.transform.Rotate(0f, 90f, 0f);
+        _animatorPossition.SetBool("isTurningRight", false);
+        _animatorMove.SetBool("isTurningRight", false);
         await Task.Delay(TimeSpan.FromSeconds(0.3f));
-        ExecuteCommend(procID, commendID + 1);
-    }
-    private async void Kick(int procID, int commendID)
-    {
-        gameController.isKicking = true;
-        animatorMove.SetBool("isKicking", true);
-        animatorPossition.SetBool("isKicking", false);
-        await Task.Delay(TimeSpan.FromSeconds(1.5f));
-        animatorPossition.SetBool("isKicking", false);
-        animatorMove.SetBool("isKicking", false);
-        await Task.Delay(TimeSpan.FromSeconds(0.3f));
-        gameController.isKicking = false;
         ExecuteCommend(procID, commendID + 1);
     }
 
-    private async void Teleport(int procID, int commendID)
+    private async void Kick(int procID, int commendID)
     {
-        animatorMove.SetBool("isTeleportDown", true);
+        _gameController.SetIsKicking(true);
+        _animatorMove.SetBool("isKicking", true);
+        _animatorPossition.SetBool("isKicking", false);
+        await Task.Delay(TimeSpan.FromSeconds(1.5f));
+        _animatorPossition.SetBool("isKicking", false);
+        _animatorMove.SetBool("isKicking", false);
+        await Task.Delay(TimeSpan.FromSeconds(0.3f));
+        _gameController.SetIsKicking(false);
+        ExecuteCommend(procID, commendID + 1);
+    }
+
+    private async void UseTeleport(int procID, int commendID)
+    {
+        _animatorMove.SetBool("isTeleportDown", true);
         await Task.Delay(TimeSpan.FromSeconds(1f));
-        animatorMove.SetBool("isTeleportDown", false);
-        if(teleport)
+        _animatorMove.SetBool("isTeleportDown", false);
+        if(_teleport)
         {
-            charakterAnimator.transform.position = teleport.GetComponent<Teleport>().secondTeleport.transform.position;
+            _characterObj.transform.position = _teleport.GetComponent<Teleport>().SecondTeleport.transform.position;
             GameObject.Find("/Audio/teleport").GetComponent<AudioSource>().Play();
         }
-        animatorMove.SetBool("isTeleportUp", true);
+        _animatorMove.SetBool("isTeleportUp", true);
         await Task.Delay(TimeSpan.FromSeconds(1f));
-        animatorMove.SetBool("isTeleportUp", false);
+        _animatorMove.SetBool("isTeleportUp", false);
         await Task.Delay(TimeSpan.FromSeconds(0.3f));
         ExecuteCommend(procID, commendID + 1);
     }
+
     private void GetCommandsFromLists()
     {
-        for(int i = 0 ; i < commendsFromAllProc.Length ; i++)
+        for(int i = 0 ; i < _commendsFromAllProc.Length ; i++)
         {
             string[] procCommends = new string[]{};
-            if (!(String.IsNullOrEmpty(commendsFromAllProc[i].text)))
+            if (!(String.IsNullOrEmpty(_commendsFromAllProc[i].text)))
             {
-                procCommends = commendsFromAllProc[i].text.Remove(commendsFromAllProc[i].text.Length - 1, 1).Split(';');
+                procCommends = _commendsFromAllProc[i].text.Remove(_commendsFromAllProc[i].text.Length - 1, 1).Split(';');
             }
-            allCommends[i] = procCommends;
+            _allCommends[i] = procCommends;
         }
     }
+
     private void MapCommandsToSlots()
     {
         int currentCommand = 0;
         for(int procNum = 0; procNum < 4; procNum++) {
-            mapSlotsToCommands[procNum] = new int[9];
+            _mapSlotsToCommands[procNum] = new int[9];
             currentCommand = 0;
             for(int slotID = 1; slotID <= 9; slotID++)
             {   
@@ -124,7 +125,7 @@ public class CommandsExecutor : MonoBehaviour
                 {
                     if(slot.transform.childCount != 0)
                     {
-                        mapSlotsToCommands[procNum][currentCommand] = slotID;
+                        _mapSlotsToCommands[procNum][currentCommand] = slotID;
                         currentCommand++;
                     }
                 }
@@ -170,38 +171,38 @@ public class CommandsExecutor : MonoBehaviour
 
     private void SetActiveIcon(int procID, int commendID)
     {
-        GameObject slot = GetSlot(procID, mapSlotsToCommands[procID][commendID]);
+        GameObject slot = GetSlot(procID, _mapSlotsToCommands[procID][commendID]);
         GameObject icon = slot.transform.GetChild(0).gameObject;
         Image iconImage = icon.GetComponent<Image>();
-        iconImage.color = activeIconColor;
-        if (previousIconImage)
+        iconImage.color = _activeIconColor;
+        if (_previousIconImage)
         {
-            previousIconImage.color = normalIconColor;
+            _previousIconImage.color = _normalIconColor;
         }
-        previousIconImage = iconImage;
+        _previousIconImage = iconImage;
     }
 
     private void ExecuteCommend(int procID, int commendID)
     {   
-        if (gameController.isLevelEnd)
+        if (_gameController.GetIsLevelEnd())
             return;
         
-        if (commendID >= allCommends[procID].Length)
+        if (commendID >= _allCommends[procID].Length)
         {   
             if (procID == 0)
-                gameController.ShowFail();
+                _gameController.ShowFail();
             else
-                ExecuteCommend(beforeProcProc[procID], beforeProcCommend[procID] + 1);
+                ExecuteCommend(_beforeProcProc[procID], _beforeProcCommend[procID] + 1);
             return;
         }
 
-        string command = allCommends[procID][commendID];
+        string command = _allCommends[procID][commendID];
         string[] commandSplit = command.Split('_');
         string commandCondition = commandSplit[commandSplit.Length - 1];
         commandSplit = commandSplit.Take(commandSplit.Length - 1).ToArray();
         command = String.Join("_", commandSplit);
 
-        if(commandCondition != "All" && commandCondition != currentCondition)
+        if(commandCondition != "All" && commandCondition != _currentCondition)
         {
             ExecuteCommend(procID, commendID + 1);
             return;
@@ -224,24 +225,50 @@ public class CommandsExecutor : MonoBehaviour
                 Kick(procID, commendID);
                 break;
             case "Teleport":
-                Teleport(procID, commendID);
+                UseTeleport(procID, commendID);
                 break;
             default:
                 if (command.StartsWith("UseProc"))
                 {
                     var newProcID = int.Parse(command.Split('_')[1]);
-                    beforeProcCommend[newProcID] = commendID;
-                    beforeProcProc[newProcID] = procID;
+                    _beforeProcCommend[newProcID] = commendID;
+                    _beforeProcProc[newProcID] = procID;
                     ExecuteCommend(newProcID, 0);
                 }
 
                 break;
         }
     }
+
     public void StartCommends()
     {   
         GetCommandsFromLists();
         MapCommandsToSlots();
         ExecuteCommend(0, 0);
+    }
+
+    public void SetCurrentCondition(string value)
+    {
+        _currentCondition = value;
+    }
+    
+    public void SetTeleport(GameObject value)
+    {
+        _teleport = value;
+    }
+
+    public void SetGameController(GameController value)
+    {
+        _gameController = value;
+    }
+
+    public void SetCommendsFromAllProc(Text[] value)
+    {
+        _commendsFromAllProc = value;
+    }
+
+    public void SetCharacterObj(GameObject value)
+    {
+        _characterObj = value;
     }
 }
