@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour
 
     public void ChangePage()
     {
+        GameObject.Find("/Audio/changePage").GetComponent<AudioSource>().Play();
         UIAnimator.SetBool("ShowSecond", !UIAnimator.GetBool("ShowSecond"));
     }
 

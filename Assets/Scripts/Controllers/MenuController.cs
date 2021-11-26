@@ -71,8 +71,10 @@ public class MenuController : MonoBehaviour
     }
 
     public void ChangeTrackVolume()
-    {
-        _currentTrack.volume = _currentVolume.value;
+    {   
+        AudioSource[] allSounds = GameObject.Find("/Audio").GetComponentsInChildren<AudioSource>();
+        foreach(AudioSource sound in allSounds)
+            sound.volume = _currentVolume.value;
     }
 
     public void Quit()
